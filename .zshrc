@@ -12,6 +12,6 @@ source $ZSH_LIB/env.zsh
 
 
 
-plugins=(git-extras gh python pip npm)
+plugins=(git-extras gh python pip npm symfony composer)
 
 source $ZSH/oh-my-zsh.sh
