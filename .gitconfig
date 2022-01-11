@@ -1,0 +1,45 @@
+[core]
+    editor = nvim
+    eof = native
+    # MacOS -reverts the (eventual) unicode decomposition of filenames
+    precomposeUnicode = true
+[user]
+	name = Patrik Höggren
+	email = p@hoggren.nu
+[alias]
+    branch-name = "!git rev-parse --abbrev-ref HEAD"
+    whoami = "git config --get user.email"
+
+    # push the current branch to the remote origin, and set it to track the upstream branch
+    publish = "!git push -u origin $(git branch-name)"
+    # delete a your working branch and recreates it from master, if your dev branch is beyond repair
+    recreate = "!f() { [[ -n $@ ]] && git checkout \"$@\" && git unpublish && git checkout master && git branch -D \"$@\" && git checkout -b \"$@\" && git publish; }; f"
+
+    unstage = reset HEAD
+
+    # list stuff
+    list-branches = !git fetch --all --prune && git branch -a
+    list-commits = !git log --pretty='%n%ci %Cgreen%h%Creset by %cn <%ce>:%n  %Cblue%s%n%Creset'
+    list-file-changes = !git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --numstat
+[help]
+    autocorrect = 1
+[fetch]
+    prune = true
+[color]
+	ui = true
+[rebase]
+	missingCommitsCheck = error
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+	ff = only
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
